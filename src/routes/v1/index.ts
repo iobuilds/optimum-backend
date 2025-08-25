@@ -1,6 +1,7 @@
 import express, { Router } from 'express';
 import config from '../../config/config';
 import docsRoute from './docs.route';
+import userRoute from './user.route';
 
 const router: Router = express.Router();
 
@@ -9,6 +10,7 @@ interface defaultRoutesObj {
   route: Router;
 }
 const defaultRoutes:defaultRoutesObj[] = [
+  { path: '/user', route: userRoute },
 ];
 
 // routes available only in development mode
