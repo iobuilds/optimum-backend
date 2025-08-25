@@ -29,3 +29,11 @@ This repository contains the **backend API** for Optimum Developers. It provides
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-username/optimum-backend.git
+
+2. Install dependencies: yarn
+
+3. Start the development server: yarn dev
+
+4. Build for production: yarn build
+
+5. Run the production build: yarn start

@@ -58,7 +58,6 @@ var user_login = (0, catchAsync_1.default)(function (req, res) { return __awaite
                 return [4 /*yield*/, (0, validate_1.default)(req.body, user_validate_1.default.user_login)];
             case 1:
                 data = _b.sent();
-                console.log(data);
                 if (!data.status) {
                     res.status(200).send(data);
                     return [2 /*return*/];
