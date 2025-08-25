@@ -19,7 +19,6 @@ const user_login = catchAsync(async (req: ExtendedRequest, res: Response) => {
          * Input Validation
          */
         const data = await validateInput(req.body, validate.user_login);
-        console.log(data);
         if (!data.status) {
             res.status(200).send( data );
             return;
