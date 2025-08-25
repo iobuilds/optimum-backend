@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var userCreate = function (name, email, password) {
+    return "<html>\n    <head>\n        <title>Optimum Developers</title>\n    </head>\n    <body>\n        <p>Dear ".concat(name, ",</p>\n        <p>Your account has been created successfully.</p>\n        <p>Below are your login credentials:</p>\n        <ul>\n            <li>Email: ").concat(email, "</li>\n            <li>Password: ").concat(password, "</li>\n        </ul>\n        <p>You can login to your account using the credentials above.</p>\n        <p>Thank you</p>\n    </body>\n    </html>");
+};
+var change_password_email = function (name, link) {
+    return "<html>\n    <head>\n        <title>Optimum Developers</title>\n        <style>\n            .button {\n                display: inline-block;\n                border-radius: 4px;\n                background-color: #4CAF50;\n                border: none;\n                color: white;\n                text-align: center;\n                font-size: 16px;\n                padding: 10px;\n                width: 100%;\n                transition: all 0.5s;\n                cursor: pointer;\n            }\n\n            .button span {\n                cursor: pointer;\n                display: inline-block;\n                position: relative;\n                transition: 0.5s;\n            }\n\n            .button span:after {\n                content: '\u00BB';\n                position: absolute;\n                opacity: 0;\n                top: 0;\n                right: -20px;\n                transition: 0.5s;\n            }\n\n            .button:hover span {\n                padding-right: 30px;\n            }\n\n            .button:hover span:after {\n                opacity: 1;\n                right: 0;\n            }\n        </style>\n    </head>\n    <body>\n        <p>Dear ".concat(name, ",</p>\n        <p>Please click the button to change your password.</p>\n        <p><a href=\"").concat(link, "\" class=\"button\"><span>Change Password</span></a></p>\n        <p>If the button is not working, please click on the following link to change your password: <a href=\"").concat(link, "\">").concat(link, "</a></p>\n        <p>Thank you</p>\n    </body>\n    </html>");
+};
+exports.default = {
+    userCreate: userCreate,
+    change_password_email: change_password_email
+};
+//# sourceMappingURL=emailTemplates.js.map

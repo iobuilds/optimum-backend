@@ -1,0 +1,19 @@
+{
+    "user": {
+        "user_login": [],
+        "user_add": [
+            1
+        ],
+        "user_edit": [
+            1
+        ],
+        "user_list": [
+            1
+        ],
+        "user_view": [
+            1
+        ],
+        "user_forget_password": [],
+        "user_reset_password": []
+    }
+}
