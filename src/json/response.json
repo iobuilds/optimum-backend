@@ -1,0 +1,19 @@
+{
+    "000" : "Custom Error",
+    "200" : "Success",
+    "500" : "Internal server error",
+    "401" : "Not Authorized",
+    "403" : "Forbidden",
+    "404" : "Not found",
+    "201" : "This data is already exists",
+    "202" : "Can not send email",
+    "203" : "Can not send OTP",
+    "204" : "Wrong OTP",
+    
+    "000 - 0020": "__USER MODULE__",
+    "001" : "Wrong Information",
+    "006" : "Something went wrong",
+    
+    "017" : "No image uploaded!",
+    "018" : "unknown error occurred when uploading"
+}
