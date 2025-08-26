@@ -15,5 +15,29 @@
         ],
         "user_forget_password": [],
         "user_reset_password": []
+    },
+    "project": {
+        
+        "project_add": [
+            1
+        ],
+        "project_edit": [
+            1
+        ],
+        "project_list": [
+            1
+        ],
+        "project_view": [
+            1
+        ],
+        "project_active_list": [
+            1
+        ],
+        "project_status_change": [
+            1
+        ],
+        "project_delete": [
+            1
+        ]
     }
 }
