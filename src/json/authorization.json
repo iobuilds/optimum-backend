@@ -39,5 +39,11 @@
         "project_delete": [
             1
         ]
+    },
+    "project_media": {
+        "media_upload": [1],
+        "media_list": [1],
+        "media_view": [1],
+        "media_delete": [1]
     }
 }

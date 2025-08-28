@@ -37,6 +37,13 @@ app.use(express.static(path.join(__dirname, 'public')))
 // v1 api routes
 app.use('/api/v1', routes);
 
+// Serve uploads folder with CORP header
+app.use("/uploads", (req, res, next) => {
+  // Allow cross-origin resource loading for images/videos
+  res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+  next();
+}, express.static(path.join(process.cwd(), "uploads")));
+
 // send back a 404 error for any unknown api request
 app.use((req, res, next) => {
     next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));

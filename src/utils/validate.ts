@@ -11,4 +11,6 @@ const validateInput = async (data: object, module: any) => {
     }
 }
 
+
+
 export default validateInput

@@ -7,9 +7,13 @@ var express_1 = __importDefault(require("express"));
 var config_1 = __importDefault(require("../../config/config"));
 var docs_route_1 = __importDefault(require("./docs.route"));
 var user_route_1 = __importDefault(require("./user.route"));
+var project_route_1 = __importDefault(require("./project.route"));
+var media_route_1 = __importDefault(require("./media.route"));
 var router = express_1.default.Router();
 var defaultRoutes = [
     { path: '/user', route: user_route_1.default },
+    { path: '/project', route: project_route_1.default },
+    { path: '/media', route: media_route_1.default },
 ];
 // routes available only in development mode
 var devRoutes = [
