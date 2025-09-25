@@ -54,6 +54,7 @@ const project_list = async (  ) => {
             project.id, 
             project.name, 
             project.description, 
+            project.f_image_url,
             project.status, 
             DATE_FORMAT(project.added_time, '%Y-%m-%d %H:%i:%s') AS added_time, 
             DATE_FORMAT(project.updated_time, '%Y-%m-%d %H:%i:%s') AS updated_time

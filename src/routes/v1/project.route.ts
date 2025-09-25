@@ -5,8 +5,8 @@ import {authenticate} from '../../middlewares/authenticate';
 const router: Router = express.Router();
 router.post('/add', authenticate, controller.project_add);
 router.post('/edit', authenticate, controller.project_edit);
-router.get('/list', authenticate, controller.project_list);
-router.post('/view', authenticate, controller.project_view);
+router.get('/list', controller.project_list);
+router.post('/view', controller.project_view);
 router.get('/active/list', authenticate, controller.project_active_list);
 router.post('/status/change', authenticate, controller.project_status_change);
 router.post('/delete', authenticate, controller.project_delete);
@@ -96,8 +96,7 @@ export default router;
  *     summary: project
  *     description: project_list
  *     tags: [project]
- *     security:
- *       - bearerAuth: []
+ *     
  *     responses:
  *       '200':
  *         description: Success
@@ -110,8 +109,7 @@ export default router;
  *     summary: project
  *     description: project_view
  *     tags: [project]
- *     security:
- *       - bearerAuth: []
+ *     
  *     requestBody:
  *       required: true
  *       content:

@@ -71,7 +71,59 @@ const change_password_email = (name:string, link:string):string=>{
     </html>`;
 }
 
+const contactFormEmail = (
+    name: string,
+    email: string,
+    phone: string,
+    serviceType: string,
+    message: string
+): string => {
+    return `<html>
+    <head>
+        <title>New Contact Form Submission - Optimum Developers</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                color: #333;
+            }
+            .container {
+                max-width: 600px;
+                margin: 0 auto;
+                border: 1px solid #ddd;
+                padding: 20px;
+                border-radius: 6px;
+                background-color: #fafafa;
+            }
+            h2 {
+                color: #4CAF50;
+            }
+            .detail {
+                margin-bottom: 10px;
+            }
+            .label {
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h2>New Contact Form Submission</h2>
+            <p>You have received a new inquiry from your website contact form:</p>
+            <div class="detail"><span class="label">Name:</span> ${name}</div>
+            <div class="detail"><span class="label">Email:</span> ${email}</div>
+            <div class="detail"><span class="label">Phone:</span> ${phone}</div>
+            <div class="detail"><span class="label">Service Type:</span> ${serviceType}</div>
+            <div class="detail"><span class="label">Message:</span><br/> ${message}</div>
+            <hr/>
+            <p><small>This message was sent automatically from Optimum Developers contact form.</small></p>
+        </div>
+    </body>
+    </html>`;
+};
+
 export default{
     userCreate,
-    change_password_email
+    change_password_email,
+    contactFormEmail
 }

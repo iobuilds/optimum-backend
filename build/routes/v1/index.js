@@ -9,11 +9,17 @@ var docs_route_1 = __importDefault(require("./docs.route"));
 var user_route_1 = __importDefault(require("./user.route"));
 var project_route_1 = __importDefault(require("./project.route"));
 var media_route_1 = __importDefault(require("./media.route"));
+var design_route_1 = __importDefault(require("./design.route"));
+var plan_route_1 = __importDefault(require("./plan.route"));
+var contact_route_1 = __importDefault(require("./contact.route"));
 var router = express_1.default.Router();
 var defaultRoutes = [
     { path: '/user', route: user_route_1.default },
     { path: '/project', route: project_route_1.default },
     { path: '/media', route: media_route_1.default },
+    { path: '/design', route: design_route_1.default },
+    { path: '/plan', route: plan_route_1.default },
+    { path: '/contact', route: contact_route_1.default },
 ];
 // routes available only in development mode
 var devRoutes = [

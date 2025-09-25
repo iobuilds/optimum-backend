@@ -115,7 +115,7 @@ var project_edit = (0, catchAsync_1.default)(function (req, res) { return __awai
     });
 }); });
 var project_list = (0, catchAsync_1.default)(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var data, authData, result, err_3;
+    var data, result, err_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -127,13 +127,6 @@ var project_list = (0, catchAsync_1.default)(function (req, res) { return __awai
                     res.status(200).send(data);
                     return [2 /*return*/];
                 }
-                authData = (0, authorize_1.default)('project', 'project_list', req);
-                if (!authData.status) {
-                    DefaultResponse_1.default.error(res, '403');
-                    return [2 /*return*/];
-                }
-                data.data.authUserId = authData.data.user;
-                data.data.authUserRole = authData.data.role;
                 return [4 /*yield*/, project_service_1.default.project_list(data.data)];
             case 2:
                 result = _a.sent();
@@ -149,7 +142,7 @@ var project_list = (0, catchAsync_1.default)(function (req, res) { return __awai
     });
 }); });
 var project_view = (0, catchAsync_1.default)(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var data, authData, result, err_4;
+    var data, result, err_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -161,13 +154,6 @@ var project_view = (0, catchAsync_1.default)(function (req, res) { return __awai
                     res.status(200).send(data);
                     return [2 /*return*/];
                 }
-                authData = (0, authorize_1.default)('project', 'project_view', req);
-                if (!authData.status) {
-                    DefaultResponse_1.default.error(res, '403');
-                    return [2 /*return*/];
-                }
-                data.data.authUserId = authData.data.user;
-                data.data.authUserRole = authData.data.role;
                 return [4 /*yield*/, project_service_1.default.project_view(data.data)];
             case 2:
                 result = _a.sent();

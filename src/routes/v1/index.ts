@@ -4,6 +4,9 @@ import docsRoute from './docs.route';
 import userRoute from './user.route';
 import projectRoute from './project.route';
 import mediaRoute from './media.route';
+import designRoute from './design.route';
+import planRoute from './plan.route';
+import contactRoute from './contact.route';
 
 const router: Router = express.Router();
 
@@ -15,6 +18,9 @@ const defaultRoutes:defaultRoutesObj[] = [
   { path: '/user', route: userRoute },
   { path: '/project', route: projectRoute },
   { path: '/media', route: mediaRoute },
+  { path: '/design', route: designRoute },
+  { path: '/plan', route: planRoute },
+  { path: '/contact', route: contactRoute },
 ];
 
 // routes available only in development mode

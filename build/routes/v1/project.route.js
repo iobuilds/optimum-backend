@@ -9,8 +9,8 @@ var authenticate_1 = require("../../middlewares/authenticate");
 var router = express_1.default.Router();
 router.post('/add', authenticate_1.authenticate, project_controller_1.default.project_add);
 router.post('/edit', authenticate_1.authenticate, project_controller_1.default.project_edit);
-router.get('/list', authenticate_1.authenticate, project_controller_1.default.project_list);
-router.post('/view', authenticate_1.authenticate, project_controller_1.default.project_view);
+router.get('/list', project_controller_1.default.project_list);
+router.post('/view', project_controller_1.default.project_view);
 router.get('/active/list', authenticate_1.authenticate, project_controller_1.default.project_active_list);
 router.post('/status/change', authenticate_1.authenticate, project_controller_1.default.project_status_change);
 router.post('/delete', authenticate_1.authenticate, project_controller_1.default.project_delete);
@@ -96,8 +96,7 @@ exports.default = router;
  *     summary: project
  *     description: project_list
  *     tags: [project]
- *     security:
- *       - bearerAuth: []
+ *
  *     responses:
  *       '200':
  *         description: Success
@@ -109,8 +108,7 @@ exports.default = router;
  *     summary: project
  *     description: project_view
  *     tags: [project]
- *     security:
- *       - bearerAuth: []
+ *
  *     requestBody:
  *       required: true
  *       content:

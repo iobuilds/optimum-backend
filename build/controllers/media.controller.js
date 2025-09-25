@@ -39,11 +39,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var logger_1 = __importDefault(require("../config/logger"));
 var DefaultResponse_1 = __importDefault(require("../utils/DefaultResponse"));
 var authorize_1 = __importDefault(require("../utils/authorize"));
 var catchAsync_1 = __importDefault(require("../utils/catchAsync"));
 var media_service_1 = __importDefault(require("../services/media.service"));
 var media_validate_1 = __importDefault(require("../validate/media.validate"));
+var validate_1 = __importDefault(require("../utils/validate"));
 // Upload media
 var media_upload = (0, catchAsync_1.default)(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var validatedBody, authData, payload, result, err_1;
@@ -77,7 +79,7 @@ var media_upload = (0, catchAsync_1.default)(function (req, res) { return __awai
 }); });
 // List media
 var media_list = (0, catchAsync_1.default)(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var data, projectId, authData, payload, result, err_2;
+    var data, projectId, payload, result, err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -86,14 +88,8 @@ var media_list = (0, catchAsync_1.default)(function (req, res) { return __awaite
             case 1:
                 data = _a.sent();
                 projectId = Number(data.project_id);
-                authData = (0, authorize_1.default)("project_media", "media_list", req);
-                if (!authData.status) {
-                    return [2 /*return*/, DefaultResponse_1.default.error(res, "403")];
-                }
                 payload = {
                     project_id: projectId,
-                    authUserId: authData.data.user,
-                    authUserRole: authData.data.role,
                 };
                 return [4 /*yield*/, media_service_1.default.media_list(payload)];
             case 2:
@@ -141,9 +137,80 @@ var media_delete = (0, catchAsync_1.default)(function (req, res) { return __awai
         }
     });
 }); });
+// Upload feature image
+var feature_image_upload = (0, catchAsync_1.default)(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var validatedBody, authData, payload, result, err_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, media_validate_1.default.feature_image_upload.validateAsync(req.body)];
+            case 1:
+                validatedBody = _a.sent();
+                authData = (0, authorize_1.default)("project_media", "feature_image_upload", req);
+                if (!authData.status)
+                    return [2 /*return*/, DefaultResponse_1.default.error(res, "403")];
+                // 3. Ensure file exists
+                if (!req.file) {
+                    return [2 /*return*/, DefaultResponse_1.default.error(res, "400", "No feature image file uploaded")];
+                }
+                payload = {
+                    project_id: Number(validatedBody.project_id),
+                    file: req.file,
+                    authUserId: authData.data.user,
+                    authUserRole: authData.data.role,
+                };
+                return [4 /*yield*/, media_service_1.default.feature_image_upload(payload)];
+            case 2:
+                result = _a.sent();
+                return [2 /*return*/, res.status(200).send(result)];
+            case 3:
+                err_4 = _a.sent();
+                console.error("Feature image upload error:", err_4);
+                return [2 /*return*/, DefaultResponse_1.default.error(res, "500")];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
+var feature_image_getById = (0, catchAsync_1.default)(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, authData, result, err_5;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, (0, validate_1.default)(req.body, media_validate_1.default.feature_image_view)];
+            case 1:
+                data = _a.sent();
+                if (!data.status) {
+                    res.status(200).send(data);
+                    return [2 /*return*/];
+                }
+                authData = (0, authorize_1.default)('project_media', 'view_feature_image', req);
+                if (!authData.status) {
+                    DefaultResponse_1.default.error(res, '403');
+                    return [2 /*return*/];
+                }
+                data.data.authUserId = authData.data.user;
+                data.data.authUserRole = authData.data.role;
+                return [4 /*yield*/, media_service_1.default.feature_image_view(data.data)];
+            case 2:
+                result = _a.sent();
+                res.status(200).send(result);
+                return [3 /*break*/, 4];
+            case 3:
+                err_5 = _a.sent();
+                logger_1.default.error(err_5);
+                DefaultResponse_1.default.error(res, "500");
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
 exports.default = {
     media_upload: media_upload,
     media_list: media_list,
     media_delete: media_delete,
+    feature_image_upload: feature_image_upload,
+    feature_image_getById: feature_image_getById
 };
 //# sourceMappingURL=media.controller.js.map

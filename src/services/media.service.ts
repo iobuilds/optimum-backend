@@ -7,6 +7,8 @@ import {
   media_upload_data,
   media_list_data,
   media_delete_data,
+  feature_image_upload_data,
+  feature_image_view_data
 } from "../config/types/media";
 
 const ensureProjectFolders = (projectId: number) => {
@@ -92,6 +94,25 @@ const media_list = async (data: media_list_data) => {
   }
 };
 
+const feature_image_view = async (data: feature_image_view_data) => {
+  try {
+    const result = await mediaModel.feature_image_getById(data.project_id);
+
+    if (!result || !result.data || result.data.length === 0) {
+      return DefaultResponse.errorFormat("404", "Feature image not found");
+    }
+
+    // Assuming result.data[0] = { url: "..." }
+    const featureImage = result.data[0].url;
+
+    return DefaultResponse.successFormat("200", { url: featureImage });
+  } catch (err) {
+    logger.error("Feature image view error", err);
+    return DefaultResponse.errorFormat("500", "Failed to fetch feature image");
+  }
+};
+
+
 
 const media_delete = async (data: media_delete_data) => {
   try {
@@ -121,8 +142,60 @@ const media_delete = async (data: media_delete_data) => {
   }
 };
 
+/**
+ * Upload feature image
+ */
+const feature_image_upload = async (data: feature_image_upload_data) => {
+  try {
+    if (!data.file) {
+      return DefaultResponse.errorFormat("400", "No file provided");
+    }
+
+    const uploadsFolder = path.join(process.cwd(), "uploads", "featureImages");
+    if (!fs.existsSync(uploadsFolder)) {
+      fs.mkdirSync(uploadsFolder, { recursive: true });
+    }
+
+    // Create a unique filename with project ID
+    const ext = path.extname(data.file.originalname); // keep original extension
+    const filename = `project_${data.project_id}${ext}`;
+    const destPath = path.join(uploadsFolder, filename);
+
+    // Save file to disk
+    if (data.file.path) {
+      fs.renameSync(data.file.path, destPath);
+    } else if (data.file.buffer) {
+      fs.writeFileSync(destPath, data.file.buffer as unknown as Uint8Array);
+    }
+
+    // Build URL to store in DB
+    const dbPath = `/uploads/featureImages/${filename}`;
+
+    // Call model to update project table f_image_url
+    const result = await mediaModel.updateProjectFeatureImage(
+      data.project_id,
+      dbPath
+    );
+
+    if (!result.status) {
+      return DefaultResponse.errorFormat("500", "Failed to save feature image URL");
+    }
+
+    return DefaultResponse.successFormat("200", {
+      message: "Feature image uploaded successfully",
+      url: dbPath,
+      project_id: data.project_id,
+    });
+  } catch (err) {
+    logger.error("Feature image upload error", err);
+    return DefaultResponse.errorFormat("500", "Feature image upload failed");
+  }
+};
+
 export default {
   media_upload,
   media_list,
   media_delete,
+  feature_image_upload,
+  feature_image_view
 };

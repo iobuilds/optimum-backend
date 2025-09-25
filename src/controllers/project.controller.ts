@@ -102,17 +102,7 @@ const project_list = catchAsync(async (req: ExtendedRequest, res: Response) => {
             return;
         }
 
-        /**
-         * @detail
-         * Authorization
-         */
-        let authData = authorize('project', 'project_list', req);
-        if (!authData.status) {
-            DefaultResponse.error(res, '403');
-            return;
-        }
-        data.data.authUserId = authData.data.user;
-        data.data.authUserRole = authData.data.role;
+        
         
         /**
          * @detail
@@ -142,17 +132,7 @@ const project_view = catchAsync(async (req: ExtendedRequest, res: Response) => {
             return;
         }
 
-        /**
-         * @detail
-         * Authorization
-         */
-        let authData = authorize('project', 'project_view', req);
-        if (!authData.status) {
-            DefaultResponse.error(res, '403');
-            return;
-        }
-        data.data.authUserId = authData.data.user;
-        data.data.authUserRole = authData.data.role;
+        
         
         /**
          * @detail

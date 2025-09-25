@@ -95,7 +95,7 @@ var project_list = function () { return __awaiter(void 0, void 0, void 0, functi
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, db_1.default.query("SELECT \n            project.id, \n            project.name, \n            project.description, \n            project.status, \n            DATE_FORMAT(project.added_time, '%Y-%m-%d %H:%i:%s') AS added_time, \n            DATE_FORMAT(project.updated_time, '%Y-%m-%d %H:%i:%s') AS updated_time\n        FROM project\n        ORDER BY project.id DESC", [] // Empty params since we want all projects including deleted
+                return [4 /*yield*/, db_1.default.query("SELECT \n            project.id, \n            project.name, \n            project.description, \n            project.f_image_url,\n            project.status, \n            DATE_FORMAT(project.added_time, '%Y-%m-%d %H:%i:%s') AS added_time, \n            DATE_FORMAT(project.updated_time, '%Y-%m-%d %H:%i:%s') AS updated_time\n        FROM project\n        ORDER BY project.id DESC", [] // Empty params since we want all projects including deleted
                     )];
             case 1:
                 result = _a.sent();

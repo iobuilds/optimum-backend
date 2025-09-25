@@ -119,8 +119,29 @@ var media_getById = function (id) { return __awaiter(void 0, void 0, void 0, fun
         }
     });
 }); };
-var media_deleteById = function (id) { return __awaiter(void 0, void 0, void 0, function () {
+var feature_image_getById = function (id) { return __awaiter(void 0, void 0, void 0, function () {
     var result, err_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, db_1.default.query("SELECT f_image_url AS url\n       FROM project\n       WHERE id = ?", [id])];
+            case 1:
+                result = _a.sent();
+                if (result.status && result.data.length > 0) {
+                    return [2 /*return*/, { status: true, data: result.data }]; // array of rows
+                }
+                return [2 /*return*/, { status: false, data: [], message: "Not found" }];
+            case 2:
+                err_4 = _a.sent();
+                logger_1.default.error("feature_image_getById error", err_4);
+                return [2 /*return*/, { status: false, data: [], message: "DB error" }];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+var media_deleteById = function (id) { return __awaiter(void 0, void 0, void 0, function () {
+    var result, err_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -130,9 +151,33 @@ var media_deleteById = function (id) { return __awaiter(void 0, void 0, void 0, 
                 result = _a.sent();
                 return [2 /*return*/, result.status];
             case 2:
-                err_4 = _a.sent();
-                logger_1.default.error(err_4);
+                err_5 = _a.sent();
+                logger_1.default.error(err_5);
                 return [2 /*return*/, false];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+var updateProjectFeatureImage = function (project_id, url) { return __awaiter(void 0, void 0, void 0, function () {
+    var result, err_6;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, db_1.default.query("UPDATE project SET f_image_url = ? WHERE id = ?", [url, project_id])];
+            case 1:
+                result = _a.sent();
+                if (result.status) {
+                    return [2 /*return*/, DefaultResponse_1.default.successFormat("200", { url: url })];
+                }
+                else {
+                    return [2 /*return*/, DefaultResponse_1.default.errorFormat("500", "Failed to update feature image URL")];
+                }
+                return [3 /*break*/, 3];
+            case 2:
+                err_6 = _a.sent();
+                logger_1.default.error("updateProjectFeatureImage error", err_6);
+                return [2 /*return*/, DefaultResponse_1.default.errorFormat("500", "Internal server error")];
             case 3: return [2 /*return*/];
         }
     });
@@ -142,5 +187,7 @@ exports.default = {
     media_list: media_list,
     media_getById: media_getById,
     media_deleteById: media_deleteById,
+    updateProjectFeatureImage: updateProjectFeatureImage,
+    feature_image_getById: feature_image_getById
 };
 //# sourceMappingURL=media.model.js.map

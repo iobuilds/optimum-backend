@@ -43,6 +43,18 @@
         "media_upload": [1],
         "media_list": [1],
         "media_view": [1],
-        "media_delete": [1]
+        "media_delete": [1],
+        "feature_image_upload": [1],
+        "view_feature_image": [1]
+    },
+    "design": {
+        "design_add": [1],
+        "design_list": [1],
+        "design_delete": [1]
+    },
+    "plan": {
+        "plan_add": [1],
+        "plan_list": [1],
+        "plan_delete": [1]
     }
 }

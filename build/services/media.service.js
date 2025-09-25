@@ -131,8 +131,30 @@ var media_list = function (data) { return __awaiter(void 0, void 0, void 0, func
         }
     });
 }); };
+var feature_image_view = function (data) { return __awaiter(void 0, void 0, void 0, function () {
+    var result, featureImage, err_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, media_model_1.default.feature_image_getById(data.project_id)];
+            case 1:
+                result = _a.sent();
+                if (!result || !result.data || result.data.length === 0) {
+                    return [2 /*return*/, DefaultResponse_1.default.errorFormat("404", "Feature image not found")];
+                }
+                featureImage = result.data[0].url;
+                return [2 /*return*/, DefaultResponse_1.default.successFormat("200", { url: featureImage })];
+            case 2:
+                err_3 = _a.sent();
+                logger_1.default.error("Feature image view error", err_3);
+                return [2 /*return*/, DefaultResponse_1.default.errorFormat("500", "Failed to fetch feature image")];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 var media_delete = function (data) { return __awaiter(void 0, void 0, void 0, function () {
-    var media, absolutePath, deleted, err_3;
+    var media, absolutePath, deleted, err_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -157,10 +179,56 @@ var media_delete = function (data) { return __awaiter(void 0, void 0, void 0, fu
                         id: data.id,
                     })];
             case 3:
-                err_3 = _a.sent();
-                logger_1.default.error("Media delete error", err_3);
+                err_4 = _a.sent();
+                logger_1.default.error("Media delete error", err_4);
                 return [2 /*return*/, DefaultResponse_1.default.errorFormat("500", "Internal server error")];
             case 4: return [2 /*return*/];
+        }
+    });
+}); };
+/**
+ * Upload feature image
+ */
+var feature_image_upload = function (data) { return __awaiter(void 0, void 0, void 0, function () {
+    var uploadsFolder, ext, filename, destPath, dbPath, result, err_5;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                if (!data.file) {
+                    return [2 /*return*/, DefaultResponse_1.default.errorFormat("400", "No file provided")];
+                }
+                uploadsFolder = path_1.default.join(process.cwd(), "uploads", "featureImages");
+                if (!fs_1.default.existsSync(uploadsFolder)) {
+                    fs_1.default.mkdirSync(uploadsFolder, { recursive: true });
+                }
+                ext = path_1.default.extname(data.file.originalname);
+                filename = "project_".concat(data.project_id).concat(ext);
+                destPath = path_1.default.join(uploadsFolder, filename);
+                // Save file to disk
+                if (data.file.path) {
+                    fs_1.default.renameSync(data.file.path, destPath);
+                }
+                else if (data.file.buffer) {
+                    fs_1.default.writeFileSync(destPath, data.file.buffer);
+                }
+                dbPath = "/uploads/featureImages/".concat(filename);
+                return [4 /*yield*/, media_model_1.default.updateProjectFeatureImage(data.project_id, dbPath)];
+            case 1:
+                result = _a.sent();
+                if (!result.status) {
+                    return [2 /*return*/, DefaultResponse_1.default.errorFormat("500", "Failed to save feature image URL")];
+                }
+                return [2 /*return*/, DefaultResponse_1.default.successFormat("200", {
+                        message: "Feature image uploaded successfully",
+                        url: dbPath,
+                        project_id: data.project_id,
+                    })];
+            case 2:
+                err_5 = _a.sent();
+                logger_1.default.error("Feature image upload error", err_5);
+                return [2 /*return*/, DefaultResponse_1.default.errorFormat("500", "Feature image upload failed")];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
@@ -168,5 +236,7 @@ exports.default = {
     media_upload: media_upload,
     media_list: media_list,
     media_delete: media_delete,
+    feature_image_upload: feature_image_upload,
+    feature_image_view: feature_image_view
 };
 //# sourceMappingURL=media.service.js.map

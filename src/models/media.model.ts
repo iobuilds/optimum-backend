@@ -83,6 +83,27 @@ const media_getById = async (id: number) => {
   }
 };
 
+const feature_image_getById = async (id: number) => {
+  try {
+    const result = await db.query(
+      `SELECT f_image_url AS url
+       FROM project
+       WHERE id = ?`,
+      [id]
+    );
+
+    if (result.status && result.data.length > 0) {
+      return { status: true, data: result.data }; // array of rows
+    }
+
+    return { status: false, data: [], message: "Not found" };
+  } catch (err) {
+    logger.error("feature_image_getById error", err);
+    return { status: false, data: [], message: "DB error" };
+  }
+};
+
+
 const media_deleteById = async (id: number) => {
   try {
     const result = await db.query(`DELETE FROM project_media WHERE id = ?`, [id]);
@@ -92,9 +113,29 @@ const media_deleteById = async (id: number) => {
     return false;
   }
 };
+
+const updateProjectFeatureImage = async (project_id: number, url: string) => {
+  try {
+    const result = await db.query(
+      `UPDATE project SET f_image_url = ? WHERE id = ?`,
+      [url, project_id]
+    );
+
+    if (result.status) {
+      return DefaultResponse.successFormat("200", { url });
+    } else {
+      return DefaultResponse.errorFormat("500", "Failed to update feature image URL");
+    }
+  } catch (err) {
+    logger.error("updateProjectFeatureImage error", err);
+    return DefaultResponse.errorFormat("500", "Internal server error");
+  }
+};
 export default {
   media_add,
   media_list,
   media_getById,
   media_deleteById,
+  updateProjectFeatureImage,
+  feature_image_getById
 };
