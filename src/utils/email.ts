@@ -14,7 +14,6 @@ const emailSend = async function email(toEmail: string, subject: string, message
         });
 
         try {
-            console.log(toEmail)
             let response = await transporter.sendMail({
                 from: `"Optimum Developers" <${config.email.from}>`,
                 to: toEmail,
