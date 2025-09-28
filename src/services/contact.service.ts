@@ -19,7 +19,7 @@ const contactService = async (data: ContactInput) => {
 
         // Send email (to admin/support team)
         const sendMail = await emailFunction.emailSend(
-            "support@optimumdevelopers.com", // ✅ recipient (your email to receive contact form)
+            data.email,
             "New Contact Form Submission - Optimum Developers", // ✅ subject
             emailBody // ✅ HTML content
         );
