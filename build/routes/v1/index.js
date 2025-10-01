@@ -28,7 +28,7 @@ var devRoutes = [
 defaultRoutes.forEach(function (route) {
     router.use(route.path, route.route);
 });
-if (config_1.default.env === 'development') {
+if (config_1.default.env === 'production') {
     devRoutes.forEach(function (route) {
         router.use(route.path, route.route);
     });

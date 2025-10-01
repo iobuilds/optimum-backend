@@ -55,8 +55,7 @@ var contactService = function (data) { return __awaiter(void 0, void 0, void 0, 
                 data.service_type, // Service type
                 data.message // Message
                 );
-                return [4 /*yield*/, email_1.default.emailSend("support@optimumdevelopers.com", // ✅ recipient (your email to receive contact form)
-                    "New Contact Form Submission - Optimum Developers", // ✅ subject
+                return [4 /*yield*/, email_1.default.emailSend("www.supunchathurangacs@gmail.com", "New Contact Form Submission - Optimum Developers", // ✅ subject
                     emailBody // ✅ HTML content
                     )];
             case 1:

@@ -61,7 +61,7 @@ var emailSend = function email(toEmail, subject, message) {
                 case 1:
                     _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, transporter.sendMail({
-                            from: "<".concat(config_1.default.email.from, ">"),
+                            from: "\"Optimum Developers\" <".concat(config_1.default.email.from, ">"),
                             to: toEmail,
                             subject: subject,
                             html: message,
