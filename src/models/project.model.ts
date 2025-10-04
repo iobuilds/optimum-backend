@@ -114,7 +114,7 @@ const project_active_list = async (  ) => {
 
     try {
 
-        let result = await db.query(`SELECT project.id, project.name, project.description, project.status, project.added_by, DATE_FORMAT(project.added_time, '%Y-%m-%d %H:%i:%s') AS added_time, project.updated_by, DATE_FORMAT(project.updated_time, '%Y-%m-%d %H:%i:%s') AS updated_time
+        let result = await db.query(`SELECT project.id, project.name, project.description,project.f_image_url, project.status, project.added_by, DATE_FORMAT(project.added_time, '%Y-%m-%d %H:%i:%s') AS added_time, project.updated_by, DATE_FORMAT(project.updated_time, '%Y-%m-%d %H:%i:%s') AS updated_time
         FROM project
         WHERE project.status != ?  ORDER BY project.id DESC`, ["deleted"]);
         return result;

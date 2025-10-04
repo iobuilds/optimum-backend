@@ -1,63 +1,53 @@
 import config from './config';
-import mysql2 from 'mysql2/promise'; // Use the promise-based API
+import mysql2 from 'mysql2/promise';
 import logger from './logger';
 
 const pool = mysql2.createPool({
-    host: config.db.host,
-    user: config.db.user,
-    password: config.db.password,
-    database: config.db.database,
-    connectionLimit: 10
+  host: config.db.host,
+  user: config.db.user,
+  password: config.db.password,
+  database: config.db.database,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
-logger.info("DB pool created")
 
-const query = async (sql: string, params: any[], dev?: boolean) => {
+logger.info('DB pool created');
 
-    let responseBody: { status: boolean; message?: string, data?: any, code?: string } = {
-        status: true
-    };
+const query = async (sql: string, params: any[] = [], dev?: boolean) => {
+  const responseBody: {
+    status: boolean;
+    message?: string;
+    data?: any;
+    code?: string;
+  } = { status: true };
 
-    try {
+  let connection;
 
-        const connection = await pool.getConnection();
-        try {
-            const results = await connection.execute(sql, params);
-            responseBody.data = results[0];
-            connection.release();
-            return responseBody;
-        } catch (queryErr) {
-            connection.release();
-            responseBody.status = false;
+  try {
+    connection = await pool.getConnection();
 
-            let queryErrObj = typeof queryErr === "object" && queryErr!== null  ? queryErr : {errNo:0};
-            let errNo = queryErrObj['errno' as keyof typeof queryErrObj];
-            // Check if unique key error
-            if(errNo === 1062){
-                const sqlMessage = queryErrObj['sqlMessage' as keyof typeof queryErrObj];
-                const columnName = /for key '(\w+)'/.exec(sqlMessage)?.[1] || "";
-                responseBody.message = `This "${columnName}" is already exists`;
-                responseBody.code = `1062`;
-                return responseBody;
-            }
-            // Return Error response
-            logger.error('Error executing query', queryErr);
-            responseBody.message = 'Something went wrong';
-            if (dev === true) responseBody.message = JSON.stringify(queryErr);
-            return responseBody;
+    const [rows] = await connection.execute(sql, params);
+    responseBody.data = rows;
 
-        } finally {
-            connection.release(); // Always release the connection, even if an error occurred
-        }
+    return responseBody;
+  } catch (err: any) {
+    responseBody.status = false;
+    logger.error('Error executing query', err);
 
-    } catch (err) {
-
-        console.error('Error getting database connection', err);
-        responseBody.status = false;
-        responseBody.message = 'Something went wrong';
-        return responseBody;
-
+    if (err?.errno === 1062) {
+      const sqlMessage = err.sqlMessage || '';
+      const columnName = /for key '(\w+)'/.exec(sqlMessage)?.[1] || '';
+      responseBody.message = `This "${columnName}" already exists.`;
+      responseBody.code = '1062';
+    } else {
+      responseBody.message = dev ? JSON.stringify(err) : 'Something went wrong';
     }
 
+    return responseBody;
+  } finally {
+    if (connection) connection.release();
+  }
 };
 
 export default { query };
