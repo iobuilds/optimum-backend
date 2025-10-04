@@ -162,17 +162,7 @@ const project_active_list = catchAsync(async (req: ExtendedRequest, res: Respons
             return;
         }
 
-        /**
-         * @detail
-         * Authorization
-         */
-        let authData = authorize('project', 'project_active_list', req);
-        if (!authData.status) {
-            DefaultResponse.error(res, '403');
-            return;
-        }
-        data.data.authUserId = authData.data.user;
-        data.data.authUserRole = authData.data.role;
+        
         
         /**
          * @detail
