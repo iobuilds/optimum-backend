@@ -138,7 +138,7 @@ var project_active_list = function () { return __awaiter(void 0, void 0, void 0,
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, db_1.default.query("SELECT project.id, project.name, project.description, project.status, project.added_by, DATE_FORMAT(project.added_time, '%Y-%m-%d %H:%i:%s') AS added_time, project.updated_by, DATE_FORMAT(project.updated_time, '%Y-%m-%d %H:%i:%s') AS updated_time\n        FROM project\n        WHERE project.status != ?  ORDER BY project.id DESC", ["deleted"])];
+                return [4 /*yield*/, db_1.default.query("SELECT project.id, project.name, project.description,project.f_image_url, project.status, project.added_by, DATE_FORMAT(project.added_time, '%Y-%m-%d %H:%i:%s') AS added_time, project.updated_by, DATE_FORMAT(project.updated_time, '%Y-%m-%d %H:%i:%s') AS updated_time\n        FROM project\n        WHERE project.status != ?  ORDER BY project.id DESC", ["deleted"])];
             case 1:
                 result = _a.sent();
                 return [2 /*return*/, result];
